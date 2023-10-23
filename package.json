@@ -1,0 +1,35 @@
+{
+  "name": "fastify-backend-architecture",
+  "version": "1.0.0",
+  "description": "Basic extendable backend architecture",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaroslawtt/fastify-backend-architecture.git"
+  },
+  "scripts": {
+    "prettify": "prettier --write \"**/*.{ts,json,md}\"",
+    "build:shared": "npm run build -w shared",
+    "build:backend": "npm run build -w backend"
+  },
+  "engines": {
+    "node": "18.x.x",
+    "npm": "9.x.x"
+  },
+  "workspaces": [
+    "shared",
+    "backend"
+  ],
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "tsc-alias": "^1.8.8"
+  },
+  "keywords": [
+    "fastify",
+    "architecture"
+  ],
+  "author": "jaroslawtt",
+  "license": "MIT",
+  "homepage": "https://github.com/jaroslawtt/fastify-backend-architecture#readme"
+}
