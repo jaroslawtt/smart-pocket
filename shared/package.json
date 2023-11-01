@@ -9,7 +9,8 @@
   "scripts": {
     "lint:type": "npx tsc --noEmit",
     "lint:js": "npx eslint \"src/**/*.ts\"",
-    "build": "tsc && tsc-alias"
+    "build": "tsc && tsc-alias",
+    "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\""
   },
   "dependencies": {
     "joi": "17.8.3"
