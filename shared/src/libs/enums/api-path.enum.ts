@@ -1,3 +1,5 @@
-const ApiPath = {} as const;
+const ApiPath = {
+    USERS: '/users',
+} as const;
 
 export { ApiPath };
