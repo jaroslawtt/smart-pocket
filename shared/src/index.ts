@@ -27,3 +27,21 @@ export {
   type ValidationSchema,
   type ValueOf,
 } from './libs/types/types.js';
+export { AuthApiPath } from './packages/auth/auth.js';
+export {
+  UsersApiPath,
+  type UserSignUpRequestDto,
+  type UserAuthResponse,
+  type UserTokenPayload,
+  type UserSignInRequestDto,
+  type UserGetAllItemResponseDto,
+  type UserGetAllResponseDto,
+  type UserUpdateRequestDto,
+  type UserUpdatePasswordRequestDto,
+  type UserUpdateLoginRequestDto,
+  userSignInValidationSchema,
+  userSignUpValidationSchema,
+  userUpdateValidationSchema,
+  userUpdatePasswordValidationSchema,
+  userUpdateLoginValidationSchema,
+} from './packages/users/users.js';
