@@ -15,9 +15,11 @@
     "migrate:dev:make": "node --loader ts-paths-esm-loader ../node_modules/knex/bin/cli.js migrate:make -x ts",
     "migrate:dev:down": "node --loader ts-paths-esm-loader ../node_modules/knex/bin/cli.js migrate:down",
     "migrate:dev:rollback": "node --loader ts-paths-esm-loader ../node_modules/knex/bin/cli.js migrate:rollback --all",
-    "build": "tsc && tsc-alias"
+    "build": "tsc && tsc-alias",
+    "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\""
   },
   "devDependencies": {
+    "@types/bcrypt": "5.0.0",
     "@types/convict": "6.1.1",
     "@types/swagger-jsdoc": "6.0.1",
     "ts-node": "10.9.1",
@@ -27,9 +29,11 @@
   "dependencies": {
     "@fastify/swagger": "8.3.1",
     "@fastify/swagger-ui": "1.4.0",
+    "bcrypt": "5.1.0",
     "convict": "6.2.4",
     "dotenv": "16.0.3",
     "fastify": "4.11.0",
+    "jose": "4.13.1",
     "knex": "2.4.2",
     "objection": "3.0.1",
     "pg": "8.9.0",
