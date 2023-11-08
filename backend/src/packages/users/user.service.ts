@@ -59,8 +59,13 @@ class UserService implements IService {
     return void this.userRepository.delete(payload);
   }
 
-  async find(payload: string): Promise<UserEntity | null> {
-    return this.userRepository.find(payload);
+  async find(payload: string): Promise<UserAuthResponse | null> {
+    const user = await this.userRepository.find(payload);
+
+    if (!user)
+        return null;
+
+    return user.toObject();
   }
 
   async findByEmail(payload: string) {

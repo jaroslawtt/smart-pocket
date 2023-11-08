@@ -11,3 +11,5 @@ const userService = new UserService(userRepository, config, encrypt);
 const userController = new UserController(logger, userService);
 
 export { userService, userController };
+export { type UserService } from './user.service.js';
+export { type UserTokenPayload } from './libs/types/types.js';
