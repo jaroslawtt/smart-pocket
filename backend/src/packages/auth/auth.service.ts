@@ -1,5 +1,5 @@
 import {
-  UserGetAllItemResponseDto,
+  type UserGetAllItemResponseDto,
   type UserSignInRequestDto,
   type UserSignUpRequestDto,
   type UserTokenPayload,
@@ -97,7 +97,7 @@ class AuthService {
       });
     }
 
-    return user.toObject();
+    return user;
   }
 }
 
