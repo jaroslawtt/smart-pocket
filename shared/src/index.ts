@@ -39,6 +39,8 @@ export {
   type UserUpdateRequestDto,
   type UserUpdatePasswordRequestDto,
   type UserUpdateLoginRequestDto,
+  type UserSignInResponseDto,
+  type UserSignUpResponseDto,
   userSignInValidationSchema,
   userSignUpValidationSchema,
   userUpdateValidationSchema,

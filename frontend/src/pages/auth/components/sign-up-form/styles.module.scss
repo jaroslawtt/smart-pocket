@@ -1,0 +1,47 @@
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.submit-button {
+  align-self: center;
+  padding: 7% 10%;
+  border-radius: 50px 50px  50px 50px;
+}
+
+.auth-form-title-container {
+  text-align: center;
+}
+
+.auth-form-title {
+  color: var(--dark-blue);
+  font-size: 1.3rem;
+}
+
+.auth-form-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-button {
+  align-self: center;
+  padding: 7% 10%;
+  border-radius: 50px 50px  50px 50px;
+}
+
+.sign-in-link-wrapper {
+  font-size: 1.2em;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 1rem
+}
+
+.sign-in-link {
+  color: var(--beautiful-blue);
+  border-bottom: 2px solid;
+}
+
+.sign-in-link:hover {
+  border-bottom: none;
+}
