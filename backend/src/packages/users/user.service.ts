@@ -62,8 +62,7 @@ class UserService implements IService {
   async find(payload: string): Promise<UserAuthResponse | null> {
     const user = await this.userRepository.find(payload);
 
-    if (!user)
-        return null;
+    if (!user) return null;
 
     return user.toObject();
   }
@@ -87,10 +86,13 @@ class UserService implements IService {
     };
   }
 
-  async update(
-    id: string,
-    payload: UserUpdateRequestDto,
-  ): Promise<UserGetAllItemResponseDto> {
+  async update({
+    id,
+    payload,
+  }: {
+    id: string;
+    payload: UserUpdateRequestDto;
+  }): Promise<UserGetAllItemResponseDto> {
     const user = await this.userRepository.update(
       UserEntity.initialize({
         id,

@@ -5,12 +5,14 @@ import { ServerApp } from './server-app.js';
 import { ServerAppApi } from './server-app-api.js';
 import { authController } from '~/packages/auth/auth.js';
 import { userController } from '~/packages/users/users.js';
+import { accountController } from '~/packages/accounts/accounts.js';
 
 const apiV1 = new ServerAppApi(
   'v1',
   config,
   ...authController.routes,
   ...userController.routes,
+  ...accountController.routes,
 );
 const serverApp = new ServerApp({
   config,

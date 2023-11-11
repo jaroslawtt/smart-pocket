@@ -27,6 +27,16 @@ export {
   type ValidationSchema,
   type ValueOf,
 } from './libs/types/types.js';
+export {
+  AccountsApiPath,
+  AccountCurrencyValue,
+  type AccountGetAllResponseDto,
+  type AccountGetAllItemResponseDto,
+  type AccountCreateRequestDto,
+  type AccountUpdateRequestDto,
+  createAccountValidationSchema,
+  updateAccountValidationSchema,
+} from './packages/accounts/accounts.js';
 export { AuthApiPath } from './packages/auth/auth.js';
 export {
   UsersApiPath,

@@ -85,11 +85,17 @@ class UserController extends Controller {
       body: UserUpdateRequestDto;
     }>,
   ): Promise<ApiHandlerResponse> {
-    const { id } = options.params;
+    const {
+      params: { id },
+      body: payload,
+    } = options;
 
     return {
       status: HttpCode.OK,
-      payload: await this.userService.update(id, options.body),
+      payload: await this.userService.update({
+        id,
+        payload,
+      }),
     };
   }
 

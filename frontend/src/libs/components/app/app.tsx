@@ -7,7 +7,7 @@ import {
 import { actions as authActions } from '~/slices/auth/auth.js';
 import { actions as appActions } from '~/slices/app/app.js';
 import { RouterOutlet } from '~/libs/components/components';
-import {DataStatus} from "~/libs/enums/enums";
+import { DataStatus } from '~/libs/enums/enums';
 
 const App = () => {
   const navigate = useNavigate();
@@ -36,8 +36,7 @@ const App = () => {
 
   const isLoading = status === DataStatus.PENDING;
 
-  if (isLoading)
-      return <div>Loading</div>
+  if (isLoading) return <div>Loading</div>;
 
   return <RouterOutlet />;
 };
