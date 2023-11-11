@@ -13,12 +13,16 @@ import {
   type ServerValidationErrorResponse,
   type ValidationSchema,
 } from '~/libs/types/types.js';
+import { authorization as authorizationPlugin } from '~/libs/packages/plugins/plugins.js';
 
 import {
   type IServerApp,
   type IServerAppApi,
 } from './libs/interfaces/interfaces.js';
 import { type ServerAppRouteParameters } from './libs/types/types.js';
+import { WHITE_ROUTES } from '~/libs/packages/server-application/libs/constants/constants.js';
+import { userService } from '~/packages/users/users.js';
+import { token } from '~/libs/packages/token/token.js';
 
 type Constructor = {
   config: IConfig;
@@ -72,6 +76,14 @@ class ServerApp implements IServerApp {
     const routers = this.apis.flatMap((it) => it.routes);
 
     this.addRoutes(routers);
+  }
+
+  public async initPlugins(): Promise<void> {
+    return void (await this.app.register(authorizationPlugin, {
+      whiteRoutesConfig: WHITE_ROUTES,
+      userService,
+      token,
+    }));
   }
 
   public async initMiddlewares(): Promise<void> {
@@ -154,6 +166,8 @@ class ServerApp implements IServerApp {
 
   public async init(): Promise<void> {
     this.logger.info('Application initialization…');
+
+    await this.initPlugins();
 
     await this.initMiddlewares();
 

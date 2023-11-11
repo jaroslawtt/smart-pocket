@@ -8,7 +8,9 @@ type Properties = {
 };
 
 const Icon: React.FC<Properties> = ({ iconName, className }: Properties) => {
-  const SvgIcon = iconNameToSvgIcon[iconName] as React.FC<React.SVGProps<SVGSVGElement>>;
+  const SvgIcon = iconNameToSvgIcon[iconName] as React.FC<
+    React.SVGProps<SVGSVGElement>
+  >;
 
   return <SvgIcon className={className} />;
 };

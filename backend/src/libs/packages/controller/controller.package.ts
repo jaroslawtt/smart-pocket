@@ -11,7 +11,7 @@ import {
 class Controller implements IController {
   private logger: ILogger;
 
-  private apiUrl: string;
+  private readonly apiUrl: string;
 
   public routes: ServerAppRouteParameters[];
 
@@ -55,7 +55,7 @@ class Controller implements IController {
       headers,
       query,
       params,
-      user
+      user,
     };
   }
 }

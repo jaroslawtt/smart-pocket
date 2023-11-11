@@ -13,7 +13,7 @@ import {
 } from '~/packages/users/users.js';
 
 import { SERVED_PAGE_PATH } from './libs/constants/constants.js';
-import { type IToken } from "~/libs/packages/token/token.js";
+import { type IToken } from '~/libs/packages/token/token.js';
 
 type AuthorizationPluginParameters = {
   whiteRoutesConfig: WhiteRoute[];
