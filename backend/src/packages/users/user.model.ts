@@ -7,6 +7,8 @@ import { UserDetailsModel } from '~/packages/users/user-details.model.js';
 import { Model, type RelationMappings } from 'objection';
 
 class UserModel extends AbstractModel {
+  public 'id': string;
+
   public 'email': string;
 
   public 'passwordHash': string;

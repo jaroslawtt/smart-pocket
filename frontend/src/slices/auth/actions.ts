@@ -5,9 +5,11 @@ import {
   type UserSignUpRequestDto,
 } from '~/packages/users/users.js';
 
-import { name as sliceName } from './auth.slice.js';
 import { type AsyncThunkConfig } from '~/libs/types/types.js';
 import { StorageKey } from '~/libs/packages/storage/storage.js';
+import { SliceName } from '~/libs/enums/enums.js';
+
+const sliceName = SliceName.AUTH;
 
 const signIn = createAsyncThunk<
   UserAuthResponse,

@@ -6,6 +6,9 @@ import { ServerAppApi } from './server-app-api.js';
 import { authController } from '~/packages/auth/auth.js';
 import { userController } from '~/packages/users/users.js';
 import { accountController } from '~/packages/accounts/accounts.js';
+import { recordController } from '~/packages/records/records.js';
+import { categoryController } from '~/packages/categories/categories.js';
+import { subcategoryController } from '~/packages/subcategories/subcategories.js';
 
 const apiV1 = new ServerAppApi(
   'v1',
@@ -13,6 +16,9 @@ const apiV1 = new ServerAppApi(
   ...authController.routes,
   ...userController.routes,
   ...accountController.routes,
+  ...recordController.routes,
+  ...categoryController.routes,
+  ...subcategoryController.routes,
 );
 const serverApp = new ServerApp({
   config,

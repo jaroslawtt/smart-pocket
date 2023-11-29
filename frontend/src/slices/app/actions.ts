@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AppRoute } from '~/libs/enums/enums.js';
+import { AppRoute, SliceName } from '~/libs/enums/enums.js';
 import { type ValueOf } from '~/libs/types/types.js';
-import { sliceName } from '~/slices/app/app.slice.js';
 
+const sliceName = SliceName.APP;
 const navigate = createAction<ValueOf<typeof AppRoute> | null>(`${sliceName}`);
 
 export { navigate };

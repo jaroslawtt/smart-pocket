@@ -78,6 +78,71 @@ class AccountRepository implements Omit<IRepository, 'findAll'> {
       currency: account.currency,
     });
   }
+
+  async produceExpense({
+    amount,
+    accountId,
+  }: {
+    accountId: string;
+    amount: number;
+  }): Promise<void> {
+    const account = ((await this.find(accountId)) as AccountEntity).toObject();
+
+    return void (await this.update(
+      AccountEntity.initialize({
+        ...account,
+        amount: +(account.amount - amount).toFixed(2),
+      }),
+    ));
+  }
+
+  async produceIncome({
+    amount,
+    accountId,
+  }: {
+    accountId: string;
+    amount: number;
+  }): Promise<void> {
+    const account = ((await this.find(accountId)) as AccountEntity).toObject();
+
+    return void (await this.update(
+      AccountEntity.initialize({
+        ...account,
+        amount: +(account.amount + amount).toFixed(2),
+      }),
+    ));
+  }
+
+  async transferMoney({
+    toAccountId,
+    fromAccountId,
+    amount,
+  }: {
+    fromAccountId: string;
+    toAccountId: string;
+    amount: number;
+  }): Promise<void> {
+    const senderAccount = (
+      (await this.find(fromAccountId)) as AccountEntity
+    ).toObject();
+    const receiverAccount = (
+      (await this.find(toAccountId)) as AccountEntity
+    ).toObject();
+
+    await this.update(
+      AccountEntity.initialize({
+        ...senderAccount,
+        amount: +(senderAccount.amount - amount).toFixed(2),
+      }),
+    );
+
+    return void (await this.update(
+      AccountEntity.initialize({
+        ...receiverAccount,
+        amount: +(receiverAccount.amount + amount).toFixed(2),
+      }),
+    ));
+  }
 }
 
 export { AccountRepository };

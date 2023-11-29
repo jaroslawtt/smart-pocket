@@ -116,7 +116,7 @@ class AccountEntity implements IEntity {
       name: this.name as string,
       amount: this.amount as number,
       currency: this.currency as ValueOf<typeof AccountCurrencyValue>,
-    }
+    };
   }
 }
 

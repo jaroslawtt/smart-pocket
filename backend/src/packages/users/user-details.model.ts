@@ -7,6 +7,8 @@ import { Model, RelationMappings } from 'objection';
 import { UserModel } from '~/packages/users/user.model.js';
 
 class UserDetailsModel extends AbstractModel {
+  public 'id': string;
+
   public 'userId': string;
 
   public 'firstName': string;
@@ -29,7 +31,7 @@ class UserDetailsModel extends AbstractModel {
             DatabaseTableName.USER_DETAILS,
             'userId',
           ),
-          to: getJoinRelationPath(DatabaseTableName.USERS, 'id'),
+          to: getJoinRelationPath<UserModel>(DatabaseTableName.USERS, 'id'),
         },
       },
     };

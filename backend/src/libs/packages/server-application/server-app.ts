@@ -13,7 +13,10 @@ import {
   type ServerValidationErrorResponse,
   type ValidationSchema,
 } from '~/libs/types/types.js';
-import { authorization as authorizationPlugin } from '~/libs/packages/plugins/plugins.js';
+import {
+  authorization as authorizationPlugin,
+  recordProducePermission as recordProducePermissionPlugin,
+} from '~/libs/packages/plugins/plugins.js';
 
 import {
   type IServerApp,
@@ -23,6 +26,7 @@ import { type ServerAppRouteParameters } from './libs/types/types.js';
 import { WHITE_ROUTES } from '~/libs/packages/server-application/libs/constants/constants.js';
 import { userService } from '~/packages/users/users.js';
 import { token } from '~/libs/packages/token/token.js';
+import { accountService } from '~/packages/accounts/accounts.js';
 
 type Constructor = {
   config: IConfig;
@@ -79,11 +83,15 @@ class ServerApp implements IServerApp {
   }
 
   public async initPlugins(): Promise<void> {
-    return void (await this.app.register(authorizationPlugin, {
+    await this.app.register(authorizationPlugin, {
       whiteRoutesConfig: WHITE_ROUTES,
       userService,
       token,
-    }));
+    });
+
+    await this.app.register(recordProducePermissionPlugin, {
+      accountService,
+    });
   }
 
   public async initMiddlewares(): Promise<void> {

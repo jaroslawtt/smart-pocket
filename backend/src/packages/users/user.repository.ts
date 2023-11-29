@@ -2,7 +2,7 @@ import { IRepository } from '~/libs/interfaces/repository.interface.js';
 import { UserModel } from '~/packages/users/user.model.js';
 import { UserEntity } from '~/packages/users/user.entity.js';
 
-class UserRepository implements IRepository {
+class UserRepository implements Omit<IRepository, 'findByUserId'> {
   private readonly userModel: typeof UserModel;
 
   private readonly defaultRelationExpression = 'userDetails';

@@ -26,7 +26,8 @@ export async function up(knex: Knex): Promise<void> {
       .uuid(ColumnName.USER_ID)
       .unsigned()
       .references('id')
-      .inTable(DatabaseTableName.USERS);
+      .inTable(DatabaseTableName.USERS)
+      .onDelete('CASCADE');
     table.string(ColumnName.FIRST_NAME).notNullable();
     table.string(ColumnName.LAST_NAME).notNullable();
     table.string(ColumnName.USERNAME).notNullable();

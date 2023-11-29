@@ -9,7 +9,7 @@ export {
   HttpError,
   ValidationError,
 } from './libs/exceptions/exceptions.js';
-export { configureString } from './libs/helpers/helpers.js';
+export { configureString, createCounter } from './libs/helpers/helpers.js';
 export { type IConfig } from './libs/packages/config/config.js';
 export {
   type HttpMethod,
@@ -57,3 +57,36 @@ export {
   userUpdatePasswordValidationSchema,
   userUpdateLoginValidationSchema,
 } from './packages/users/users.js';
+export {
+  CategoryValue,
+  CategoriesApiPath,
+  type CategoryCreateRequestDto,
+  type CategoryGetAllItemResponseDto,
+  type CategoryUpdateRequestDto,
+  type CategoryGetAllResponseDto,
+} from './packages/categories/categories.js';
+export {
+  createRecordValidationSchema,
+  updateRecordValidationSchema,
+  type RecordCreateRequestDto,
+  type RecordUpdateRequestDto,
+  type RecordGetAllResponseDto,
+  type RecordGetAllItemResponseDto,
+  RecordTypeValue,
+  RecordsApiPath,
+} from './packages/records/records.js';
+export {
+  createSubcategoryValidationSchema,
+  updateSubcategoryValidationSchema,
+  SubcategoryFoodAndDrinksValue,
+  SubcategoryShoppingValue,
+  SubcategoryHousingValue,
+  SubcategoryVehicleValue,
+  SubcategoryTransportationValue,
+  SubcategoriesApiPath,
+  type SubcategoryGetAllItemResponseDto,
+  type SubcategoryCreateRequestDto,
+  type SubcategoryUpdateRequestDto,
+  type SubcategoryUpdateDto,
+  type SubcategoryCreateDto,
+} from './packages/subcategories/subcategories.js';

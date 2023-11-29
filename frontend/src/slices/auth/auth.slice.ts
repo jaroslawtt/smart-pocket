@@ -1,7 +1,7 @@
 import { type UserAuthResponse } from '~/packages/users/users.js';
 import { createSlice } from '@reduxjs/toolkit';
 import { ValueOf } from '~/libs/types/types.js';
-import { DataStatus } from '~/libs/enums/enums.js';
+import { DataStatus, SliceName } from '~/libs/enums/enums.js';
 import { getCurrentUser, signIn, signUp } from '~/slices/auth/actions.js';
 
 type State = {
@@ -14,9 +14,9 @@ const initialState: State = {
   user: null,
 };
 
-const { name, reducer, actions } = createSlice({
+const { reducer, actions } = createSlice({
   initialState,
-  name: 'auth',
+  name: SliceName.AUTH,
   reducers: {},
   extraReducers(builder) {
     builder.addCase(signUp.fulfilled, (state, { payload }) => {
@@ -43,4 +43,4 @@ const { name, reducer, actions } = createSlice({
   },
 });
 
-export { actions, name, reducer };
+export { actions, reducer };

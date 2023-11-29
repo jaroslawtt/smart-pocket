@@ -1,5 +1,5 @@
 const HttpHeader = {
-  CONTENT_TYPE: 'content-type',
+  CONTENT_TYPE: 'content-types',
   AUTHORIZATION: 'authorization',
 } as const;
 

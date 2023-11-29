@@ -1,8 +1,6 @@
 import { Model } from 'objection';
 
 class Abstract extends Model {
-  public 'id': string;
-
   public 'createdAt': string;
 
   public 'updatedAt': string;
