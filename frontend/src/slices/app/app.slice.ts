@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AppRoute } from '~/libs/enums/enums.js';
+import { AppRoute, SliceName } from '~/libs/enums/enums.js';
 import { type ValueOf } from '~/libs/types/types.js';
 import { navigate } from '~/slices/app/actions.js';
 
@@ -11,9 +11,9 @@ const initialState: State = {
   navigateTo: null,
 };
 
-const { actions, name, reducer } = createSlice({
+const { actions, reducer } = createSlice({
   initialState,
-  name: 'app',
+  name: SliceName.APP,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(navigate, (state, { payload }) => {
@@ -22,4 +22,4 @@ const { actions, name, reducer } = createSlice({
   },
 });
 
-export { name as sliceName, actions, reducer };
+export { actions, reducer };

@@ -1,4 +1,4 @@
-import { IEntity } from '~/libs/interfaces/entity.interface';
+import { IEntity } from '~/libs/interfaces/entity.interface.js';
 
 class UserEntity implements IEntity {
   private readonly 'id': string | null;

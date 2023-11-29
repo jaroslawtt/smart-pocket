@@ -34,14 +34,14 @@ class AccountService implements Omit<IService, 'findAll'> {
     return void this.accountRepository.delete(payload);
   }
 
-  async find(payload: string): Promise<AccountGetAllItemResponseDto | null> {
-    const account = await this.accountRepository.find(payload);
+  async find(id: string) {
+    const account = await this.accountRepository.find(id);
 
     if (!account) {
       return null;
     }
 
-    return account.toMappedObject();
+    return account.toObject();
   }
 
   async findByUserId(userId: string): Promise<AccountGetAllResponseDto> {
@@ -70,6 +70,42 @@ class AccountService implements Omit<IService, 'findAll'> {
     );
 
     return account.toMappedObject();
+  }
+
+  async produceIncome({
+    amount,
+    accountId,
+  }: {
+    accountId: string;
+    amount: number;
+  }): Promise<void> {
+    return void this.accountRepository.produceIncome({ amount, accountId });
+  }
+
+  async produceExpense({
+    amount,
+    accountId,
+  }: {
+    accountId: string;
+    amount: number;
+  }): Promise<void> {
+    return void this.accountRepository.produceExpense({ amount, accountId });
+  }
+
+  async transferMoney({
+    amount,
+    toAccountId,
+    fromAccountId,
+  }: {
+    fromAccountId: string;
+    toAccountId: string;
+    amount: number;
+  }): Promise<void> {
+    return this.accountRepository.transferMoney({
+      amount,
+      toAccountId,
+      fromAccountId,
+    });
   }
 }
 

@@ -8,4 +8,4 @@ const accountRepository = new AccountRepository(AccountModel);
 const accountService = new AccountService(accountRepository);
 const accountController = new AccountController(logger, accountService);
 
-export { accountController };
+export { accountController, accountService };

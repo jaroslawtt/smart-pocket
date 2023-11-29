@@ -15,7 +15,7 @@ import { UserEntity } from '~/packages/users/user.entity.js';
 import { type UserPrivateData } from '~/packages/users/libs/types/user-private-data.type.js';
 import { ApplicationError } from '~/libs/exceptions/exceptions.js';
 
-class UserService implements IService {
+class UserService implements Omit<IService, 'findByUserId'> {
   private readonly userRepository: UserRepository;
 
   private readonly config: IConfig;
