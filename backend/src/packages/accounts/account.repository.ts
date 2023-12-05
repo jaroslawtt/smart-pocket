@@ -1,6 +1,7 @@
 import { IRepository } from '~/libs/interfaces/repository.interface.js';
 import { AccountModel } from '~/packages/accounts/account.model.js';
 import { AccountEntity } from '~/packages/accounts/account.entity.js';
+import {AccountFilterQueryDto} from "shared/build";
 
 class AccountRepository implements Omit<IRepository, 'findAll'> {
   private readonly accountModel: typeof AccountModel;
@@ -46,10 +47,17 @@ class AccountRepository implements Omit<IRepository, 'findAll'> {
     });
   }
 
-  async findByUserId(userId: string): Promise<AccountEntity[]> {
+  async findByUserId(userId: string, parameters: AccountFilterQueryDto): Promise<AccountEntity[]> {
+    const { name } = parameters;
+
     const accounts = await this.accountModel
       .query()
       .where('userId', userId)
+      .andWhere((builder) => {
+          if (name) {
+            void builder.where('name', 'ilike', `%${name}%`);
+          }
+        })
       .execute();
 
     return accounts.map((account) =>

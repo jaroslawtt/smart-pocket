@@ -1,6 +1,7 @@
 import { IService } from '~/libs/interfaces/service.interface.js';
 import {
   type AccountCreateRequestDto,
+  type AccountFilterQueryDto,
   type AccountGetAllItemResponseDto,
   type AccountUpdateRequestDto,
 } from '~/packages/accounts/libs/types/types.js';
@@ -44,8 +45,8 @@ class AccountService implements Omit<IService, 'findAll'> {
     return account.toObject();
   }
 
-  async findByUserId(userId: string): Promise<AccountGetAllResponseDto> {
-    const accounts = await this.accountRepository.findByUserId(userId);
+  async findByUserId(userId: string, parameters: AccountFilterQueryDto): Promise<AccountGetAllResponseDto> {
+    const accounts = await this.accountRepository.findByUserId(userId, parameters);
 
     return {
       items: accounts.map((account) => account.toMappedObject()),

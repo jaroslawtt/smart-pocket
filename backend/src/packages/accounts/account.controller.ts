@@ -7,7 +7,7 @@ import { ILogger } from '~/libs/packages/logger/libs/interfaces/logger.interface
 import { AccountService } from '~/packages/accounts/account.service.js';
 import { ApiPath } from '~/libs/enums/enums.js';
 import {
-  type AccountCreateRequestDto,
+  type AccountCreateRequestDto, AccountFilterQueryDto,
   type AccountUpdateRequestDto,
 } from '~/packages/accounts/libs/types/types.js';
 import { HttpCode } from '~/libs/packages/http/http.js';
@@ -29,7 +29,7 @@ class AccountController extends Controller {
       method: 'GET',
       handler: (options) =>
         this.findByUserId(
-          options as ApiHandlerOptions<{ user: UserAuthResponse }>,
+          options as ApiHandlerOptions<{ user: UserAuthResponse; query: AccountFilterQueryDto }>,
         ),
     });
 
@@ -85,13 +85,13 @@ class AccountController extends Controller {
   }
 
   private async findByUserId(
-    options: ApiHandlerOptions<{ user: UserAuthResponse }>,
+    options: ApiHandlerOptions<{ user: UserAuthResponse; query: AccountFilterQueryDto }>,
   ): Promise<ApiHandlerResponse> {
-    const { id: userId } = options.user;
+    const { user: { id: userId }, query } = options;
 
     return {
       status: HttpCode.OK,
-      payload: await this.accountService.findByUserId(userId),
+      payload: await this.accountService.findByUserId(userId, query),
     };
   }
 
