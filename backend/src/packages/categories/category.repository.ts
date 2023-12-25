@@ -1,9 +1,8 @@
 import { CategoryModel } from '~/packages/categories/category.model.js';
 import { CategoryEntity } from '~/packages/categories/category.entity.js';
 import { SubcategoryEntity } from '~/packages/subcategories/subcategory.entity.js';
-import { IRepository } from '~/libs/interfaces/repository.interface.js';
 
-class CategoryRepository implements Pick<IRepository, 'findByUserId'> {
+class CategoryRepository {
   private readonly defaultRelationExpression = 'subcategories';
   private readonly categoryModel: typeof CategoryModel;
   public constructor(categoryModel: typeof CategoryModel) {

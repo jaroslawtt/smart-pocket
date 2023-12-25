@@ -2,8 +2,7 @@ import { RecordTypeValue } from '~/packages/records/libs/enums/record-type-value
 
 type RecordExpense = {
   type: typeof RecordTypeValue.EXPENSE;
-  accountId: string;
-  categoryId: number | null;
+  categoryId?: number;
   payee: string | null;
 };
 

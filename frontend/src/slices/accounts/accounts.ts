@@ -4,6 +4,7 @@ import {
   getUserAccounts,
   updateAccount,
   deleteAccount,
+  getAccountById,
 } from '~/slices/accounts/actions.js';
 
 const allActions = {
@@ -12,6 +13,7 @@ const allActions = {
   createAccount,
   updateAccount,
   deleteAccount,
+  getAccountById,
 };
 
 export { allActions as actions };

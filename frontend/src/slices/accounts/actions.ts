@@ -4,6 +4,8 @@ import {
   type AccountCreateRequestDto,
   type AccountUpdateRequestDto,
   type AccountGetAllItemResponseDto,
+  type AccountFilterQueryDto,
+  type AccountGetAllItemRequestParamsDto,
 } from '~/packages/accounts/accounts.js';
 import { type AsyncThunkConfig } from '~/libs/types/async-thunk-config.type.js';
 import { type ActionPayloadWithId } from '~/libs/types/action-payload-with-id.type.js';
@@ -12,13 +14,24 @@ import { SliceName } from '~/libs/enums/enums.js';
 const sliceName = SliceName.ACCOUNTS;
 const getUserAccounts = createAsyncThunk<
   AccountGetAllResponseDto,
-  undefined,
+  undefined | AccountFilterQueryDto,
   AsyncThunkConfig
 >(`${sliceName}/get-user-accounts`, async (payload, { extra }) => {
   const { accountsApi } = extra;
-  const accounts = await accountsApi.getAccounts();
+  const accounts = await accountsApi.getAccounts(payload);
 
   return accounts;
+});
+
+const getAccountById = createAsyncThunk<
+  AccountGetAllItemResponseDto,
+  AccountGetAllItemRequestParamsDto,
+  AsyncThunkConfig
+>(`${SliceName.ACCOUNTS}/get-account-by-id`, async (payload, { extra }) => {
+  const { accountsApi } = extra;
+  const account = await accountsApi.getAccountById(payload);
+
+  return account;
 });
 
 const createAccount = createAsyncThunk<
@@ -55,4 +68,10 @@ const deleteAccount = createAsyncThunk<string, string, AsyncThunkConfig>(
   },
 );
 
-export { getUserAccounts, createAccount, updateAccount, deleteAccount };
+export {
+  getUserAccounts,
+  createAccount,
+  updateAccount,
+  deleteAccount,
+  getAccountById,
+};

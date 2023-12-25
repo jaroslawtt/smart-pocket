@@ -6,6 +6,7 @@ import { logger } from '~/libs/packages/logger/logger.js';
 
 const accountRepository = new AccountRepository(AccountModel);
 const accountService = new AccountService(accountRepository);
+
 const accountController = new AccountController(logger, accountService);
 
-export { accountController, accountService };
+export { accountController, accountService, accountRepository };

@@ -12,7 +12,13 @@ import {
 import { AppRoute } from '~/libs/enums/enums.js';
 import { store } from '~/libs/packages/store/store.js';
 import { Auth } from '~/pages/auth/auth.js';
-import { Root } from '~/pages/root/root';
+import { Dashboard } from '~/pages/dashboard/dashboard.js';
+import { NotFound } from '~/pages/not-found/not-found.js';
+import { Notification } from '~/libs/components/components.js';
+import { Accounts } from '~/pages/accounts/accounts';
+import { AccountDetails } from '~/pages/account-details/account-details';
+import {Records} from "~/pages/records/records";
+import {Settings} from "~/pages/settings/settings";
 
 createRoot(document.querySelector('#root') as HTMLElement).render(
   <StrictMode>
@@ -24,10 +30,42 @@ createRoot(document.querySelector('#root') as HTMLElement).render(
             element: <App />,
             children: [
               {
-                path: AppRoute.ROOT,
+                path: AppRoute.DASHBOARD,
                 element: (
                   <ProtectedRoute>
-                    <Root />
+                    <Dashboard />
+                  </ProtectedRoute>
+                ),
+              },
+              {
+                path: AppRoute.ACCOUNTS,
+                element: (
+                  <ProtectedRoute>
+                    <Accounts />
+                  </ProtectedRoute>
+                ),
+              },
+                {
+                  path: AppRoute.RECORDS,
+                  element: (
+                      <ProtectedRoute>
+                          <Records />
+                      </ProtectedRoute>
+                  )
+                },
+                {
+                  path: AppRoute.SETTINGS,
+                  element: (
+                      <ProtectedRoute>
+                          <Settings />
+                      </ProtectedRoute>
+                  )
+                },
+              {
+                path: AppRoute.ACCOUNTS_DETAILS_$ID,
+                element: (
+                  <ProtectedRoute>
+                    <AccountDetails />
                   </ProtectedRoute>
                 ),
               },
@@ -41,8 +79,13 @@ createRoot(document.querySelector('#root') as HTMLElement).render(
               },
             ],
           },
+          {
+            path: AppRoute.ANY,
+            element: <NotFound />,
+          },
         ]}
       />
     </StoreProvider>
+    <Notification />
   </StrictMode>,
 );

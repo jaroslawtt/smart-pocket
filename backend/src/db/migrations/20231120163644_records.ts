@@ -6,7 +6,6 @@ const ColumnName = {
   ID: 'id',
   TYPE: 'type',
   ACCOUNT_ID: 'account_id',
-  FROM_ACCOUNT_ID: 'from_account_id',
   TO_ACCOUNT_ID: 'to_account_id',
   AMOUNT: 'amount',
   SUBCATEGORY_ID: 'subcategory_id',
@@ -35,19 +34,15 @@ export async function up(knex: Knex): Promise<void> {
       .unsigned()
       .references('id')
       .inTable(DatabaseTableName.ACCOUNTS)
-      .nullable();
-    table
-      .uuid(ColumnName.FROM_ACCOUNT_ID)
-      .unsigned()
-      .references('id')
-      .inTable(DatabaseTableName.ACCOUNTS)
-      .nullable();
+      .notNullable()
+      .onDelete('CASCADE');
     table
       .uuid(ColumnName.TO_ACCOUNT_ID)
       .unsigned()
       .references('id')
       .inTable(DatabaseTableName.ACCOUNTS)
-      .nullable();
+      .nullable()
+      .onDelete('CASCADE');
     table.double(ColumnName.AMOUNT).notNullable().defaultTo(0);
     table
       .integer(ColumnName.SUBCATEGORY_ID)

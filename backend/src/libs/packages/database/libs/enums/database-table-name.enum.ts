@@ -7,6 +7,7 @@ const DatabaseTableName = {
   RECORD_CATEGORIES: 'record_categories',
   RECORD_SUBCATEGORIES: 'record_subcategories',
   RECORD_DETAILS: 'record_details',
+  FILES: 'files',
 } as const;
 
 export { DatabaseTableName };

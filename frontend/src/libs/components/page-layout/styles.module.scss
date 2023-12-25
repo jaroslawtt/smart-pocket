@@ -1,0 +1,28 @@
+.page-layout-wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  z-index: var(--top-layer);
+  border-bottom: 1px solid #e5e9ed;
+  width: 100%;
+  background: var(--white);
+}
+.page-content-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+  overflow: scroll;
+  height: 100%;
+  width: 100%;
+  background: var(--paper-white);
+}

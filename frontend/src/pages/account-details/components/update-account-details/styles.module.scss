@@ -1,0 +1,30 @@
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.2rem 2.2rem;
+}
+
+
+.form-amount-details {
+  display: flex;
+  gap: 15px;
+}
+
+.form-select {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  height: 100%;
+}
+
+.form-amount-details .form-input {
+  width: 100%;
+}
+
+.form-submit-btn {
+  margin: 0 10px;
+  padding: 0;
+  font-size: 14px;
+}

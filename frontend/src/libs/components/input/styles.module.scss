@@ -17,6 +17,16 @@
   border-radius: 3px;
 }
 
+.textarea {
+  width: 100%;
+  font-size: inherit;
+  line-height: inherit;
+  background-color: var(--white);
+  border: none;
+  outline: none;
+  resize: none;
+}
+
 .input[type="password"]::-ms-reveal,
 .input[type="password"]::-ms-clear {
   display: none;
@@ -92,4 +102,9 @@
 .inline-input:focus {
   background: transparent;
   box-shadow: none;
+}
+
+.input:disabled {
+  color: var(--gray-disable);
+  border-color: var(--gray-disable);
 }

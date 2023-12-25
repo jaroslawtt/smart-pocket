@@ -8,64 +8,71 @@ import {
 import { RecordRepository } from '~/packages/records/record.repository.js';
 import { RecordEntity } from '~/packages/records/record.entity.js';
 import { RecordTypeValue } from '~/packages/records/records.js';
-import { AccountService } from '~/packages/accounts/account.service.js';
+import { AccountRepository } from '~/packages/accounts/account.repository.js';
+import { AccountEntity } from '~/packages/accounts/account.entity.js';
 
-class RecordService implements Omit<IService, 'findAll'> {
+class RecordService implements Omit<IService, 'findAll' | 'update'> {
   private readonly recordRepository: RecordRepository;
-  private readonly accountService: AccountService;
+  private readonly accountRepository: AccountRepository;
   constructor(
     recordRepository: RecordRepository,
-    accountService: AccountService,
+    accountRepository: AccountRepository,
   ) {
     this.recordRepository = recordRepository;
-    this.accountService = accountService;
+    this.accountRepository = accountRepository;
   }
   async create(payload: RecordCreateRequestDto): Promise<unknown> {
     const { type, amount, place, description, date } = payload;
-    const record = await this.recordRepository.create(
-      RecordEntity.initializeNew({
-        type,
-        amount,
-        place,
-        description,
-        date,
-        payee: payload.type === RecordTypeValue.EXPENSE ? payload.payee : null,
-        subcategoryId:
-          payload.type !== RecordTypeValue.TRANSFER ? payload.categoryId : null,
-        toAccountId:
-          payload.type === RecordTypeValue.TRANSFER
-            ? payload.toAccountId
-            : null,
-        fromAccountId:
-          payload.type === RecordTypeValue.TRANSFER
-            ? payload.fromAccountId
-            : null,
-        accountId:
-          payload.type !== RecordTypeValue.TRANSFER ? payload.accountId : null,
-      }),
-    );
+    const account = (
+      (await this.accountRepository.find(payload.accountId)) as AccountEntity
+    ).toObject();
 
     switch (type) {
       case RecordTypeValue.TRANSFER:
-        await this.accountService.transferMoney({
+        await this.accountRepository.transferMoney({
           amount,
           toAccountId: payload.toAccountId,
-          fromAccountId: payload.fromAccountId,
+          fromAccountId: payload.accountId,
         });
         break;
       case RecordTypeValue.EXPENSE:
-        await this.accountService.produceExpense({
+        await this.accountRepository.produceExpense({
           amount,
           accountId: payload.accountId,
         });
         break;
       case RecordTypeValue.INCOME:
-        await this.accountService.produceIncome({
+        await this.accountRepository.produceIncome({
           amount,
           accountId: payload.accountId,
         });
         break;
     }
+
+    const record = await this.recordRepository.create(
+      RecordEntity.initializeNew({
+        type,
+        amount,
+        remnant:
+          type === RecordTypeValue.INCOME
+            ? +(account.amount + amount).toFixed(2)
+            : +(account.amount - amount).toFixed(2),
+        place,
+        description,
+        payee: payload.type === RecordTypeValue.EXPENSE ? payload.payee : null,
+        subcategoryId:
+          payload.type !== RecordTypeValue.TRANSFER
+            ? payload?.categoryId
+              ? payload.categoryId
+              : null
+            : null,
+        toAccountId:
+          payload.type === RecordTypeValue.TRANSFER
+            ? payload.toAccountId
+            : null,
+        accountId: payload.accountId,
+      }),
+    );
 
     return record.toObject();
   }
@@ -80,20 +87,20 @@ class RecordService implements Omit<IService, 'findAll'> {
 
     switch (record.type) {
       case RecordTypeValue.TRANSFER:
-        await this.accountService.transferMoney({
+        await this.accountRepository.transferMoney({
           amount: record.amount,
-          toAccountId: record.fromAccountId,
+          toAccountId: record.accountId,
           fromAccountId: record.toAccountId,
         });
         break;
       case RecordTypeValue.EXPENSE:
-        await this.accountService.produceIncome({
+        await this.accountRepository.produceIncome({
           amount: record.amount,
           accountId: record.accountId,
         });
         break;
       case RecordTypeValue.INCOME:
-        await this.accountService.produceExpense({
+        await this.accountRepository.produceExpense({
           amount: record.amount,
           accountId: record.accountId,
         });
@@ -121,40 +128,14 @@ class RecordService implements Omit<IService, 'findAll'> {
     };
   }
 
-  async update({
-    id,
-    payload,
-  }: {
-    id: string;
-    payload: RecordUpdateRequestDto;
-  }) {
-    const { type, amount, place, description, date } = payload;
-    const record = await this.recordRepository.update(
-      RecordEntity.initialize({
-        id,
-        type,
-        amount,
-        place,
-        description,
-        date,
-        payee: payload.type === RecordTypeValue.EXPENSE ? payload.payee : null,
-        subcategoryId:
-          payload.type !== RecordTypeValue.TRANSFER ? payload.categoryId : null,
-        toAccountId:
-          payload.type === RecordTypeValue.TRANSFER
-            ? payload.toAccountId
-            : null,
-        fromAccountId:
-          payload.type === RecordTypeValue.TRANSFER
-            ? payload.fromAccountId
-            : null,
-        accountId:
-          payload.type !== RecordTypeValue.TRANSFER ? payload.accountId : null,
-        subcategory: null,
-      }),
-    );
+  async findByAccountId(accountId: string): Promise<RecordGetAllResponseDto> {
+    const records = await this.recordRepository.findByAccountId(accountId);
 
-    return record.toObject();
+    return {
+      items: records.map(
+        (record) => record.toObject() as RecordGetAllItemResponseDto,
+      ),
+    };
   }
 }
 

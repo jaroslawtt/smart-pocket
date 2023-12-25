@@ -1,8 +1,7 @@
 import { CategoryRepository } from '~/packages/categories/category.repository.js';
 import { type CategoryGetAllResponseDto } from '~/packages/categories/libs/types/types.js';
-import { IService } from '~/libs/interfaces/service.interface.js';
 
-class CategoryService implements Pick<IService, 'findByUserId'> {
+class CategoryService {
   private readonly categoryRepository: CategoryRepository;
   public constructor(categoryRepository: CategoryRepository) {
     this.categoryRepository = categoryRepository;

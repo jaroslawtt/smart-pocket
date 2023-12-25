@@ -7,19 +7,25 @@ import { ILogger } from '~/libs/packages/logger/libs/interfaces/logger.interface
 import { AccountService } from '~/packages/accounts/account.service.js';
 import { ApiPath } from '~/libs/enums/enums.js';
 import {
-  type AccountCreateRequestDto, AccountFilterQueryDto,
+  type AccountCreateRequestDto,
+  type AccountFilterQueryDto,
+  type AccountGetAllItemRequestParamsDto,
   type AccountUpdateRequestDto,
+  type AccountDeleteRequestParamsDto,
 } from '~/packages/accounts/libs/types/types.js';
 import { HttpCode } from '~/libs/packages/http/http.js';
 import { AccountsApiPath } from '~/packages/accounts/libs/enums/enums.js';
 import { UserAuthResponse } from '~/packages/users/libs/types/types.js';
 import {
+  accountGetAllItemParamsValidationSchema,
   createAccountValidationSchema,
+  deleteAccountRequestParamsValidationSchema,
   updateAccountValidationSchema,
 } from '~/packages/accounts/libs/validation-schemas/validation-schemas.js';
 
 class AccountController extends Controller {
   private readonly accountService: AccountService;
+
   public constructor(logger: ILogger, accountService: AccountService) {
     super(logger, ApiPath.ACCOUNTS);
     this.accountService = accountService;
@@ -29,15 +35,35 @@ class AccountController extends Controller {
       method: 'GET',
       handler: (options) =>
         this.findByUserId(
-          options as ApiHandlerOptions<{ user: UserAuthResponse; query: AccountFilterQueryDto }>,
+          options as ApiHandlerOptions<{
+            user: UserAuthResponse;
+            query: AccountFilterQueryDto;
+          }>,
         ),
     });
 
     this.addRoute({
       path: AccountsApiPath.$ID,
       method: 'GET',
+      validation: { params: accountGetAllItemParamsValidationSchema },
       handler: (options) =>
-        this.find(options as ApiHandlerOptions<{ params: { id: string } }>),
+        this.find(
+          options as ApiHandlerOptions<{
+            params: AccountGetAllItemRequestParamsDto;
+          }>,
+        ),
+    });
+
+    this.addRoute({
+      path: AccountsApiPath.$ID_RECORDS,
+      method: 'GET',
+      validation: { params: accountGetAllItemParamsValidationSchema },
+      handler: (options) =>
+        this.findRecordsByAccountId(
+          options as ApiHandlerOptions<{
+            params: AccountGetAllItemRequestParamsDto;
+          }>,
+        ),
     });
 
     this.addRoute({
@@ -70,8 +96,13 @@ class AccountController extends Controller {
     this.addRoute({
       path: AccountsApiPath.$ID,
       method: 'DELETE',
+      validation: { params: deleteAccountRequestParamsValidationSchema },
       handler: (options) =>
-        this.delete(options as ApiHandlerOptions<{ params: { id: string } }>),
+        this.delete(
+          options as ApiHandlerOptions<{
+            params: AccountDeleteRequestParamsDto;
+          }>,
+        ),
     });
   }
 
@@ -85,13 +116,30 @@ class AccountController extends Controller {
   }
 
   private async findByUserId(
-    options: ApiHandlerOptions<{ user: UserAuthResponse; query: AccountFilterQueryDto }>,
+    options: ApiHandlerOptions<{
+      user: UserAuthResponse;
+      query: AccountFilterQueryDto;
+    }>,
   ): Promise<ApiHandlerResponse> {
-    const { user: { id: userId }, query } = options;
+    const {
+      user: { id: userId },
+      query,
+    } = options;
 
     return {
       status: HttpCode.OK,
       payload: await this.accountService.findByUserId(userId, query),
+    };
+  }
+
+  private async findRecordsByAccountId(
+    options: ApiHandlerOptions<{ params: { id: string } }>,
+  ): Promise<ApiHandlerResponse> {
+    const { id } = options.params;
+
+    return {
+      status: HttpCode.OK,
+      payload: await this.accountService.findRecordsByAccountId(id),
     };
   }
 
@@ -136,7 +184,7 @@ class AccountController extends Controller {
   }
 
   private async delete(
-    options: ApiHandlerOptions<{ params: { id: string } }>,
+    options: ApiHandlerOptions<{ params: AccountDeleteRequestParamsDto }>,
   ): Promise<ApiHandlerResponse> {
     const { id } = options.params;
 

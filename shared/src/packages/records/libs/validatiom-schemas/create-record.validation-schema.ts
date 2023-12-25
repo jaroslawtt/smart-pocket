@@ -1,7 +1,6 @@
 import joi from 'joi';
 import { type RecordCreateRequestDto } from '~/packages/records/libs/types/record-create-request-dto.type.js';
 import { RecordTypeValue } from '~/packages/records/records.js';
-import { RecordValidationMessage } from '~/packages/records/libs/enums/enums.js';
 
 const createRecord = joi.object<RecordCreateRequestDto, true>({
   type: joi
@@ -9,15 +8,13 @@ const createRecord = joi.object<RecordCreateRequestDto, true>({
     .valid(...Object.values(RecordTypeValue))
     .required(),
   amount: joi.number().precision(2).min(0).required(),
-  date: joi.string().required().messages({
-    'string:empty': RecordValidationMessage.DATE_REQUIRE,
-  }),
-  place: joi.string().allow('', null).required(),
-  description: joi.string().allow('', null).required(),
-  accountId: joi.string().guid({ version: 'uuidv4' }).allow(null),
-  categoryId: joi.number().min(0).allow(null),
-  fromAccountId: joi.string().guid({ version: 'uuidv4' }).allow(null),
-  toAccountId: joi.string().guid({ version: 'uuidv4' }).allow(null),
+  date: joi.string().allow('', null),
+  payee: joi.string().allow('', null),
+  place: joi.string().allow('', null),
+  description: joi.string().allow('', null),
+  accountId: joi.string().guid({ version: 'uuidv4' }).required(),
+  categoryId: joi.number().min(0),
+  toAccountId: joi.string().guid({ version: 'uuidv4' }),
 });
 
 export { createRecord };

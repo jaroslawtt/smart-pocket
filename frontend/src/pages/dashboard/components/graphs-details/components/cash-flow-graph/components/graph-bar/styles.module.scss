@@ -1,0 +1,37 @@
+.bar-wrapper {
+  width: 100%;
+}
+
+.bar {
+  width: 100%;
+  background: #eff0f2;
+  height: 35px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.progress {
+  border-radius: 10px;
+  height: 100%;
+}
+
+.red {
+  background-color: var(--red-orange);
+}
+
+.green {
+  background-color: var(--green-gloss);
+}
+
+.bar-details {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.detail-amount {
+  font-weight: 500;
+  text-align: right;
+  color: #354052;
+  font-size: 14px;
+}

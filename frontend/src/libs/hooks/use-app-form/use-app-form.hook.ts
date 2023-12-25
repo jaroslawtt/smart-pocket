@@ -3,14 +3,14 @@ import {
   type Control,
   type DeepPartial,
   type FieldErrors,
-  type FieldValues,
+  type FieldValues, FormState,
   type Mode,
   type UseFormGetValues,
   type UseFormHandleSubmit,
   type UseFormProps,
-  type UseFormReset,
+  type UseFormReset, UseFormSetValue,
 } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { useForm  } from 'react-hook-form';
 
 import { type ValidationSchema } from '~/libs/types/types.js';
 
@@ -26,6 +26,8 @@ type ReturnValue<T extends FieldValues = FieldValues> = {
   handleSubmit: UseFormHandleSubmit<T>;
   handleReset: UseFormReset<T>;
   handleValuesGet: UseFormGetValues<T>;
+  formState: FormState<T>;
+  setValue: UseFormSetValue<T>;
 };
 
 const useAppForm = <T extends FieldValues = FieldValues>({
@@ -47,17 +49,20 @@ const useAppForm = <T extends FieldValues = FieldValues>({
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState,
     reset: handleReset,
     getValues: handleValuesGet,
+    setValue,
   } = useForm<T>(parameters);
 
   return {
     control,
-    errors,
+    errors: formState.errors,
     handleSubmit,
     handleReset,
     handleValuesGet,
+    formState,
+    setValue,
   };
 };
 

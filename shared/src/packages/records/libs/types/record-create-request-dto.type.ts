@@ -10,8 +10,9 @@ type RecordCreateExpenseRequestDto = RecordCreateTypeRequestDto & RecordExpense;
 type RecordCreateIncomeRequestDto = RecordCreateTypeRequestDto & RecordIncome;
 
 type RecordCreateTypeRequestDto = {
+  accountId: string;
   amount: number;
-  date: string;
+  date?: string;
   place: string | null;
   description: string | null;
 };

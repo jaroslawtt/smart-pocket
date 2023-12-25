@@ -14,13 +14,13 @@ class RecordModel extends AbstractModel {
 
   public 'type': ValueOf<typeof RecordTypeValue>;
 
-  public 'accountId': string | null;
-
-  public 'fromAccountId': string | null;
+  public 'accountId': string;
 
   public 'toAccountId': string | null;
 
   public 'amount': number;
+
+  public 'remnant': number;
 
   public 'date': string;
 

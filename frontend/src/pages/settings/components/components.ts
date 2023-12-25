@@ -1,0 +1,1 @@
+export { PersonalDetailsEdit } from './personal-details-edit/personal-details-edit.js';

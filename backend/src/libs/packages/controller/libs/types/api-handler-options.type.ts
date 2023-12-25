@@ -7,6 +7,7 @@ type DefaultApiHandlerOptions = {
   query?: unknown;
   params?: unknown;
   user?: UserAuthResponse | null;
+  fileBuffer?: Buffer | null;
 };
 
 type ApiHandlerOptions<
@@ -17,6 +18,7 @@ type ApiHandlerOptions<
   params: T['params'];
   user: T['user'];
   headers: Parameters<ServerAppRouteParameters['handler']>[0]['headers'];
+  fileBuffer: T['fileBuffer'];
 };
 
 export { type ApiHandlerOptions };

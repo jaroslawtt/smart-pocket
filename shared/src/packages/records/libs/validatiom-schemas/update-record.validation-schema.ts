@@ -9,14 +9,13 @@ const updateRecord = joi.object<RecordUpdateRequestDto, true>({
     .valid(...Object.values(RecordTypeValue))
     .required(),
   amount: joi.number().precision(2).min(0).required(),
-  date: joi.string().required().messages({
+  date: joi.string().messages({
     'string:empty': RecordValidationMessage.DATE_REQUIRE,
   }),
   place: joi.string().allow('', null).required(),
   description: joi.string().allow('', null).required(),
   accountId: joi.string().guid({ version: 'uuidv4' }).allow(null),
   categoryId: joi.number().min(0).allow(null),
-  fromAccountId: joi.string().guid({ version: 'uuidv4' }).allow(null),
   toAccountId: joi.string().guid({ version: 'uuidv4' }).allow(null),
 });
 

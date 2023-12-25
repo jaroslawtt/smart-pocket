@@ -3,7 +3,6 @@ interface IService<T = unknown> {
   findAll(): Promise<{
     items: T[];
   }>;
-  findByUserId(payload: unknown): Promise<T>;
   create(payload: unknown): Promise<T>;
   update(payload: unknown): Promise<T>;
   delete(payload: unknown): Promise<void>;

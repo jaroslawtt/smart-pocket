@@ -10,12 +10,13 @@ import { ApiPath } from '~/libs/enums/enums.js';
 import { HttpCode } from '~/libs/packages/http/http.js';
 import {
   type RecordCreateRequestDto,
-  RecordUpdateRequestDto,
+  type RecordDeleteRequestParamsDto,
+  type RecordGetAllByAccountIdDto,
 } from '~/packages/records/libs/types/types.js';
 import { type UserAuthResponse } from '~/packages/users/libs/types/types.js';
 import {
   createRecordValidationSchema,
-  updateRecordValidationSchema,
+  deleteRecordRequestParamsValidationSchema,
 } from '~/packages/records/libs/validation-schemas/validation-schemas.js';
 
 class RecordController extends Controller {
@@ -54,24 +55,12 @@ class RecordController extends Controller {
 
     this.addRoute({
       path: RecordsApiPath.$ID,
-      method: 'PUT',
-      validation: { body: updateRecordValidationSchema },
-      handler: (options) =>
-        this.update(
-          options as ApiHandlerOptions<{
-            body: RecordUpdateRequestDto;
-            params: { id: string };
-          }>,
-        ),
-    });
-
-    this.addRoute({
-      path: RecordsApiPath.$ID,
       method: 'DELETE',
+      validation: { params: deleteRecordRequestParamsValidationSchema },
       handler: (options) =>
         this.delete(
           options as ApiHandlerOptions<{
-            params: { id: string };
+            params: RecordDeleteRequestParamsDto;
           }>,
         ),
     });
@@ -103,6 +92,17 @@ class RecordController extends Controller {
     };
   }
 
+  private async findByAccountId(
+    options: ApiHandlerOptions<{ body: RecordGetAllByAccountIdDto }>,
+  ): Promise<ApiHandlerResponse> {
+    const { accountId } = options.body;
+
+    return {
+      status: HttpCode.OK,
+      payload: await this.recordService.findByAccountId(accountId),
+    };
+  }
+
   private async findByUserId(
     options: ApiHandlerOptions<{
       user: UserAuthResponse;
@@ -113,22 +113,6 @@ class RecordController extends Controller {
     return {
       status: HttpCode.OK,
       payload: await this.recordService.findByUserId(userId),
-    };
-  }
-
-  private async update(
-    options: ApiHandlerOptions<{
-      body: RecordUpdateRequestDto;
-      params: { id: string };
-    }>,
-  ): Promise<ApiHandlerResponse> {
-    const {
-      body,
-      params: { id },
-    } = options;
-    return {
-      status: HttpCode.OK,
-      payload: await this.recordService.update({ id, payload: body }),
     };
   }
 

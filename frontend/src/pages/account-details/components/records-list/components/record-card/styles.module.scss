@@ -1,0 +1,109 @@
+.card-wrapper {
+    width: 100%;
+    background: var(--white);
+    border-radius: 6px;
+    padding: 20px;
+    cursor: pointer;
+    transition: box-shadow .2s;
+}
+
+.card-wrapper:hover {
+    box-shadow: 0 4px 10px 0 rgba(93,130,170,.21);
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.card-details-wrapper {
+    width: 30%;
+}
+
+.card-details {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-category-name {
+    font-size: 15px;
+    font-weight: 550;
+    color: #354052;
+}
+
+.card-amount-controls {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.card-amount-wrapper {
+    position: relative;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.amount-expense {
+    color: var(--red-orange);
+}
+
+.amount-income {
+    color: var(--green-gloss);
+}
+
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.icon-wrapper:hover .record-setting-icon {
+    filter: invert(15%) sepia(4%) saturate(9%) hue-rotate(26deg) brightness(99%) contrast(84%);
+}
+
+.dropdown-menu {
+    position: absolute;
+    width: 100%;
+    top: 35px;
+    box-shadow: 0 2px 3px 0 #ccd2db;
+    border: 1px solid #ccd2db;
+    transition: opacity .1s ease;
+    border-radius: .28571429rem;
+    z-index: var(--second-layer );
+    background: white;
+}
+
+.dropdown-menu-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0;
+    height: 100%;
+    margin: 0;
+}
+
+.dropdown-menu-item {
+    width: 100%;
+    padding: 5px 10px;
+    list-style-type: none;
+    text-align: center;
+}
+
+.dropdown-menu-item:hover {
+    background: var(--paper-white);
+}
+
+.dropdown-menu-item:last-of-type {
+    color: var(--red);
+}
+
+.card-wrapper:last-of-type .dropdown-menu {
+    top: -70px;
+}

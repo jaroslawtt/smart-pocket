@@ -5,3 +5,6 @@ export { type RecordTransfer } from './record-transfer.type.js';
 export { type RecordGetAllItemResponseDto } from './record-get-all-item-response-dto.type.js';
 export { type RecordGetAllResponseDto } from './record-get-all-response-dto.type.js';
 export { type RecordUpdateRequestDto } from './record-update-request-dto.type.js';
+export { type RecordGetAllByAccountIdDto } from './record-get-all-by-account-id-dto.type.js';
+export { type RecordDeleteRequestParamsDto } from './record-delete-request-params-dto.type.js';
+export { type RecordGetAllByAccountIdDtoResponse } from './record-get-all-by-account-id-dto-response.type.js';

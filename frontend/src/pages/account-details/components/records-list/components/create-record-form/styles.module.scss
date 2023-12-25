@@ -1,0 +1,75 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.form-data-wrapper {
+  display: flex;
+}
+
+.form-data {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-data-top {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 1.5rem 1rem 0;
+  min-width: 350px;
+  background: var(--red-orange);
+}
+
+.form-details {
+  padding: 1.4rem 1rem 0;
+  background: var(--paper-white);
+}
+
+.ppDate {
+  height: 38px;
+  font-size: 12px;
+  padding-left: 6px;
+  cursor: pointer;
+}
+.ppDate::-webkit-inner-spin-button,
+.ppDate::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+.ppDate:focus::-webkit-calendar-picker-indicator, .ppDate:hover::-webkit-calendar-picker-indicator {
+  display: block;
+  -webkit-appearance: none;
+}
+.ppDate::-webkit-clear-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.form-data-bottom {
+  padding: 1rem 0.8rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.submit-btn {
+  align-self: center;
+  max-height: 30px;
+  max-width: 150px;
+  padding: 5px 10px;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.form-data-sides-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -1,0 +1,1 @@
+export { CategoriesApiPath } from 'shared/build/index.js';

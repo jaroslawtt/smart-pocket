@@ -14,6 +14,7 @@ import {
 import { UserEntity } from '~/packages/users/user.entity.js';
 import { type UserPrivateData } from '~/packages/users/libs/types/user-private-data.type.js';
 import { ApplicationError } from '~/libs/exceptions/exceptions.js';
+import { file } from '~/libs/packages/file/file.js';
 
 class UserService implements Omit<IService, 'findByUserId'> {
   private readonly userRepository: UserRepository;
@@ -102,6 +103,8 @@ class UserService implements Omit<IService, 'findByUserId'> {
         username: payload.username,
         passwordHash: null,
         passwordSalt: null,
+        avatarId: null,
+        avatarUrl: null,
       }),
     );
 
@@ -142,6 +145,8 @@ class UserService implements Omit<IService, 'findByUserId'> {
         username: null,
         lastName: null,
         firstName: null,
+        avatarId: null,
+        avatarUrl: null,
       }),
     );
 
@@ -168,10 +173,35 @@ class UserService implements Omit<IService, 'findByUserId'> {
         email,
         passwordHash: null,
         passwordSalt: null,
+        avatarId: null,
+        avatarUrl: null,
       }),
     );
 
     return updatedUser.toObject();
+  }
+
+  public async updateAvatar(
+    id: string,
+    avatar: Buffer,
+  ): Promise<UserAuthResponse> {
+    const { id: avatarId } = await file.upload({ file: avatar });
+
+    const user = await this.userRepository.updateAvatar(
+      UserEntity.initialize({
+        id,
+        avatarId,
+        firstName: null,
+        lastName: null,
+        username: null,
+        email: null,
+        passwordHash: null,
+        passwordSalt: null,
+        avatarUrl: null,
+      }),
+    );
+
+    return user.toObject();
   }
 }
 

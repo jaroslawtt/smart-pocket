@@ -1,0 +1,1 @@
+export { createRecordValidationSchema } from 'shared/build/index.js';

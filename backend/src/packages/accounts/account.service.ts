@@ -8,6 +8,10 @@ import {
 import { AccountRepository } from '~/packages/accounts/account.repository.js';
 import { AccountEntity } from '~/packages/accounts/account.entity.js';
 import { type AccountGetAllResponseDto } from '~/packages/accounts/libs/types/types.js';
+import {
+  RecordGetAllItemResponseDto,
+  type RecordGetAllResponseDto,
+} from '~/packages/records/libs/types/types.js';
 
 class AccountService implements Omit<IService, 'findAll'> {
   private readonly accountRepository: AccountRepository;
@@ -45,11 +49,31 @@ class AccountService implements Omit<IService, 'findAll'> {
     return account.toObject();
   }
 
-  async findByUserId(userId: string, parameters: AccountFilterQueryDto): Promise<AccountGetAllResponseDto> {
-    const accounts = await this.accountRepository.findByUserId(userId, parameters);
+  async findByUserId(
+    userId: string,
+    parameters: AccountFilterQueryDto,
+  ): Promise<AccountGetAllResponseDto> {
+    const accounts = await this.accountRepository.findByUserId(
+      userId,
+      parameters,
+    );
 
     return {
       items: accounts.map((account) => account.toMappedObject()),
+    };
+  }
+
+  async findRecordsByAccountId(
+    id: string,
+  ): Promise<RecordGetAllResponseDto | null> {
+    const records = await this.accountRepository.findWithRecords(id);
+
+    if (!records) return null;
+
+    return {
+      items: records
+        .toRecordsList()
+        .map((record) => record.toObject() as RecordGetAllItemResponseDto),
     };
   }
 
@@ -67,46 +91,11 @@ class AccountService implements Omit<IService, 'findAll'> {
         id,
         userId,
         ...payload,
+        records: null,
       }),
     );
 
     return account.toMappedObject();
-  }
-
-  async produceIncome({
-    amount,
-    accountId,
-  }: {
-    accountId: string;
-    amount: number;
-  }): Promise<void> {
-    return void this.accountRepository.produceIncome({ amount, accountId });
-  }
-
-  async produceExpense({
-    amount,
-    accountId,
-  }: {
-    accountId: string;
-    amount: number;
-  }): Promise<void> {
-    return void this.accountRepository.produceExpense({ amount, accountId });
-  }
-
-  async transferMoney({
-    amount,
-    toAccountId,
-    fromAccountId,
-  }: {
-    fromAccountId: string;
-    toAccountId: string;
-    amount: number;
-  }): Promise<void> {
-    return this.accountRepository.transferMoney({
-      amount,
-      toAccountId,
-      fromAccountId,
-    });
   }
 }
 

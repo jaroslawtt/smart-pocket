@@ -9,6 +9,7 @@ import { ApiPath } from '~/libs/enums/enums.js';
 import { HttpCode } from '~/libs/packages/http/http.js';
 import { UsersApiPath } from '~/packages/users/libs/enums/enums.js';
 import {
+  UserAuthResponse,
   type UserUpdateLoginRequestDto,
   type UserUpdatePasswordRequestDto,
   type UserUpdateRequestDto,
@@ -33,39 +34,51 @@ class UserController extends Controller {
     });
 
     this.addRoute({
-      path: UsersApiPath.$ID_UPDATE_PASSWORD,
-      method: 'POST',
+      path: UsersApiPath.UPDATE_PASSWORD,
+      method: 'PUT',
       validation: { body: userUpdatePasswordValidationSchema },
       handler: (options) =>
         this.updatePassword(
           options as ApiHandlerOptions<{
-            params: { id: string };
+            user: UserAuthResponse;
             body: UserUpdatePasswordRequestDto;
           }>,
         ),
     });
 
     this.addRoute({
-      path: UsersApiPath.$ID_UPDATE_LOGIN,
-      method: 'POST',
+      path: UsersApiPath.UPDATE_LOGIN,
+      method: 'PUT',
       validation: { body: userUpdateLoginValidationSchema },
       handler: (options) =>
         this.updateLogin(
           options as ApiHandlerOptions<{
-            params: { id: string };
+            user: UserAuthResponse;
             body: UserUpdateLoginRequestDto;
           }>,
         ),
     });
 
     this.addRoute({
-      path: UsersApiPath.$ID,
+      path: UsersApiPath.UPDATE_IMAGE,
+      method: 'PUT',
+      handler: (options) =>
+        this.updateImage(
+          options as ApiHandlerOptions<{
+            user: UserAuthResponse;
+            fileBuffer: Buffer;
+          }>,
+        ),
+    });
+
+    this.addRoute({
+      path: UsersApiPath.ROOT,
       method: 'PUT',
       validation: { body: userUpdateValidationSchema },
       handler: (options) =>
         this.update(
           options as ApiHandlerOptions<{
-            params: { id: string };
+            user: UserAuthResponse;
             body: UserUpdateRequestDto;
           }>,
         ),
@@ -81,12 +94,12 @@ class UserController extends Controller {
 
   private async update(
     options: ApiHandlerOptions<{
-      params: { id: string };
+      user: UserAuthResponse;
       body: UserUpdateRequestDto;
     }>,
   ): Promise<ApiHandlerResponse> {
     const {
-      params: { id },
+      user: { id },
       body: payload,
     } = options;
 
@@ -99,31 +112,42 @@ class UserController extends Controller {
     };
   }
 
-  private async updateLogin(
-    options: ApiHandlerOptions<{
-      params: { id: string };
-      body: UserUpdateLoginRequestDto;
-    }>,
-  ) {
-    const { id } = options.params;
-
+  private async updateLogin({
+    body,
+    user,
+  }: ApiHandlerOptions<{
+    user: UserAuthResponse;
+    body: UserUpdateLoginRequestDto;
+  }>) {
     return {
       status: HttpCode.OK,
-      payload: await this.userService.updateLogin(id, options.body),
+      payload: await this.userService.updateLogin(user.id, body),
     };
   }
 
-  private async updatePassword(
-    options: ApiHandlerOptions<{
-      params: { id: string };
-      body: UserUpdatePasswordRequestDto;
-    }>,
-  ): Promise<ApiHandlerResponse> {
-    const { id } = options.params;
-
+  private async updatePassword({
+    body,
+    user,
+  }: ApiHandlerOptions<{
+    user: UserAuthResponse;
+    body: UserUpdatePasswordRequestDto;
+  }>): Promise<ApiHandlerResponse> {
     return {
       status: HttpCode.OK,
-      payload: await this.userService.updatePassword(id, options.body),
+      payload: await this.userService.updatePassword(user.id, body),
+    };
+  }
+
+  private async updateImage({
+    user,
+    fileBuffer,
+  }: ApiHandlerOptions<{
+    user: UserAuthResponse;
+    fileBuffer: Buffer;
+  }>): Promise<ApiHandlerResponse> {
+    return {
+      status: HttpCode.OK,
+      payload: await this.userService.updateAvatar(user.id, fileBuffer),
     };
   }
 }

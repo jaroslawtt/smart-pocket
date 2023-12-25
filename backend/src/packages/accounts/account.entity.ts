@@ -1,6 +1,7 @@
 import { IEntity } from '~/libs/interfaces/entity.interface';
 import { type ValueOf } from '~/libs/types/types.js';
 import { AccountCurrencyValue } from '~/packages/accounts/libs/enums/enums.js';
+import { RecordEntity } from '~/packages/records/record.entity.js';
 
 class AccountEntity implements IEntity {
   private readonly 'id': string | null;
@@ -13,24 +14,29 @@ class AccountEntity implements IEntity {
 
   private readonly 'currency': ValueOf<typeof AccountCurrencyValue> | null;
 
+  private readonly 'records': RecordEntity[] | null;
+
   private constructor({
     id,
     userId,
     name,
     amount,
     currency,
+    records,
   }: {
     id: string | null;
     userId: string | null;
     name: string | null;
     amount: number | null;
     currency: ValueOf<typeof AccountCurrencyValue> | null;
+    records: RecordEntity[] | null;
   }) {
     this.id = id;
     this.userId = userId;
     this.name = name;
     this.amount = amount;
     this.currency = currency;
+    this.records = records;
   }
 
   public static initialize({
@@ -39,12 +45,14 @@ class AccountEntity implements IEntity {
     name,
     amount,
     currency,
+    records,
   }: {
     id: string | null;
     userId: string | null;
     name: string | null;
     amount: number | null;
     currency: ValueOf<typeof AccountCurrencyValue> | null;
+    records: RecordEntity[] | null;
   }): AccountEntity {
     return new AccountEntity({
       id,
@@ -52,6 +60,7 @@ class AccountEntity implements IEntity {
       name,
       amount,
       currency,
+      records,
     });
   }
 
@@ -72,6 +81,7 @@ class AccountEntity implements IEntity {
       name,
       amount,
       currency,
+      records: null,
     });
   }
 
@@ -117,6 +127,10 @@ class AccountEntity implements IEntity {
       amount: this.amount as number,
       currency: this.currency as ValueOf<typeof AccountCurrencyValue>,
     };
+  }
+
+  toRecordsList(): RecordEntity[] {
+    return this.records as RecordEntity[];
   }
 }
 

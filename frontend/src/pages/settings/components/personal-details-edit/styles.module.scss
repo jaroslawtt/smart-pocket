@@ -1,0 +1,72 @@
+.edit-details-wrapper {
+  height: auto;
+}
+
+.edit-details-header {
+  border-radius: 6px 6px 0 0;
+  margin: 0;
+  padding: 1.0rem 1.7rem;
+  border: 1px solid #e5e9ed;
+  background-color: #fafbfc;
+}
+
+.edit-details-header-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #354052;
+}
+
+.edit-details-content {
+  width: 100%;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-image-wrapper {
+  position: relative;
+  display: block;
+  width: 151px;
+  height: 151px;
+  margin: 0 auto 30px;
+  overflow: hidden;
+  background-color: var(--gray-100);
+  border-radius: 50%;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-image-wrapper::after {
+  content: "Change picture";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--white);
+  font-size: 16px;
+  background-color: rgba($color: #000000, $alpha: 25%);
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.profile-image-wrapper:hover::after {
+  visibility: visible;
+}
+
+.inputs {
+  width: 30%;
+}
+
+.submit-btn {
+  border-radius: 25px;
+}

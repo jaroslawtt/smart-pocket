@@ -2,7 +2,13 @@ import { type UserAuthResponse } from '~/packages/users/users.js';
 import { createSlice } from '@reduxjs/toolkit';
 import { ValueOf } from '~/libs/types/types.js';
 import { DataStatus, SliceName } from '~/libs/enums/enums.js';
-import { getCurrentUser, signIn, signUp } from '~/slices/auth/actions.js';
+import {
+  getCurrentUser,
+  signIn,
+  signOut,
+  signUp,
+} from '~/slices/auth/actions.js';
+import {updateUserDetails, updateUserProfilePicture} from "~/slices/users/actions";
 
 type State = {
   dataStatus: ValueOf<typeof DataStatus>;
@@ -26,6 +32,9 @@ const { reducer, actions } = createSlice({
     builder.addCase(signUp.pending, (state) => {
       state.dataStatus = DataStatus.PENDING;
     });
+    builder.addCase(signUp.rejected, (state) => {
+      state.dataStatus = DataStatus.REJECTED;
+    });
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
       state.dataStatus = DataStatus.FULFILLED;
       state.user = payload;
@@ -33,12 +42,27 @@ const { reducer, actions } = createSlice({
     builder.addCase(signIn.pending, (state, { payload }) => {
       state.dataStatus = DataStatus.PENDING;
     });
+    builder.addCase(signIn.rejected, (state) => {
+      state.dataStatus = DataStatus.REJECTED;
+    });
     builder.addCase(getCurrentUser.fulfilled, (state, { payload }) => {
       state.dataStatus = DataStatus.FULFILLED;
       state.user = payload;
     });
     builder.addCase(getCurrentUser.pending, (state) => {
       state.dataStatus = DataStatus.PENDING;
+    });
+    builder.addCase(getCurrentUser.rejected, (state) => {
+      state.dataStatus = DataStatus.REJECTED;
+    });
+    builder.addCase(signOut.fulfilled, (state) => {
+      state.user = null;
+    });
+    builder.addCase(updateUserDetails.fulfilled, (state, { payload }) => {
+      state.user = payload;
+    })
+    builder.addCase(updateUserProfilePicture.fulfilled, (state, { payload }) => {
+      state.user = payload;
     });
   },
 });

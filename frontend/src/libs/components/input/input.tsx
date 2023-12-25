@@ -19,12 +19,15 @@ type Properties<T extends FieldValues> = {
   name: FieldPath<T>;
   className?: string | undefined;
   placeholder?: string;
-  type?: 'text' | 'email' | 'password' | 'search';
+  type?: 'text' | 'email' | 'password' | 'search' | 'number' | 'date' | 'time';
   icon?: IconType;
   isDisabled?: boolean;
   inputMode?: 'email' | 'text' | 'search';
   isLabelVisuallyHidden?: boolean;
   isTooltipShowedOnlyOnError?: boolean | undefined;
+  min?: number | string;
+  max?: number | string;
+  rows?: number;
 };
 
 const Input = <T extends FieldValues>({
@@ -40,6 +43,9 @@ const Input = <T extends FieldValues>({
   inputMode = 'text',
   isLabelVisuallyHidden = false,
   isTooltipShowedOnlyOnError = false,
+  min,
+  max,
+  rows,
 }: Properties<T>): JSX.Element => {
   const { field } = useFormController({ name, control });
 
@@ -52,6 +58,7 @@ const Input = <T extends FieldValues>({
     styles['input'],
     hasError && styles['has-error'],
     icon && styles['search-input'],
+    rows && styles['textarea'],
     className,
   );
 
@@ -66,14 +73,26 @@ const Input = <T extends FieldValues>({
         {label}
       </span>
       {icon && <Icon iconName={icon} className={styles['search-input-icon']} />}
-      <input
-        {...field}
-        className={validClassNames}
-        type={type}
-        placeholder={placeholder}
-        disabled={isDisabled}
-        inputMode={inputMode}
-      />
+      {rows ? (
+        <textarea
+          {...field}
+          className={validClassNames}
+          placeholder={placeholder}
+          disabled={isDisabled}
+          rows={rows}
+        />
+      ) : (
+        <input
+          {...field}
+          className={validClassNames}
+          type={type}
+          placeholder={placeholder}
+          disabled={isDisabled}
+          inputMode={inputMode}
+          min={min}
+          max={max}
+        />
+      )}
       <ErrorMessage error={error as string} />
     </label>
   );

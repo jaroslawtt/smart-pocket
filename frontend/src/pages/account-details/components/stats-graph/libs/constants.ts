@@ -1,0 +1,3 @@
+const MAX_NUMBER_LABELS = 7;
+
+export { MAX_NUMBER_LABELS };

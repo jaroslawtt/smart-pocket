@@ -6,6 +6,7 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
   private readonly userModel: typeof UserModel;
 
   private readonly defaultRelationExpression = 'userDetails';
+  private readonly avatarRelationExpression = 'avatar';
 
   constructor(userModel: typeof UserModel) {
     this.userModel = userModel;
@@ -28,6 +29,9 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
         },
       })
       .withGraphFetched(this.defaultRelationExpression)
+      .modifyGraph(this.defaultRelationExpression, (graph) =>
+        graph.withGraphFetched(this.avatarRelationExpression),
+      )
       .execute();
 
     return UserEntity.initialize({
@@ -38,6 +42,8 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
       passwordSalt: user.passwordSalt,
       passwordHash: user.passwordHash,
       username: user.userDetails.username,
+      avatarId: user.userDetails.avatarId,
+      avatarUrl: user.userDetails.avatar?.url ?? null,
     });
   }
 
@@ -48,6 +54,9 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
         email,
       })
       .withGraphFetched(this.defaultRelationExpression)
+      .modifyGraph(this.defaultRelationExpression, (graph) =>
+        graph.withGraphFetched(this.avatarRelationExpression),
+      )
       .execute();
 
     if (!user) return null;
@@ -60,6 +69,8 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
       passwordSalt: user.passwordSalt,
       passwordHash: user.passwordHash,
       username: user.userDetails.username,
+      avatarId: user.userDetails.avatarId,
+      avatarUrl: user.userDetails.avatar?.url ?? null,
     });
   }
 
@@ -72,6 +83,9 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
       .query()
       .findById(id)
       .withGraphFetched(this.defaultRelationExpression)
+      .modifyGraph(this.defaultRelationExpression, (graph) =>
+        graph.withGraphFetched(this.avatarRelationExpression),
+      )
       .execute();
 
     if (!user) return null;
@@ -84,6 +98,8 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
       passwordSalt: user.passwordSalt,
       passwordHash: user.passwordHash,
       username: user.userDetails.username,
+      avatarId: user.userDetails.avatarId,
+      avatarUrl: user.userDetails.avatar?.url ?? null,
     });
   }
 
@@ -102,6 +118,8 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
         passwordSalt: user.passwordSalt,
         passwordHash: user.passwordHash,
         username: user.userDetails.username,
+        avatarId: user.userDetails.avatarId,
+        avatarUrl: user.userDetails.avatar?.url ?? null,
       });
     });
   }
@@ -117,7 +135,10 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
     const user = (await this.userModel
       .query()
       .findById(id)
-      .withGraphFetched(this.defaultRelationExpression)) as UserModel;
+      .withGraphFetched(this.defaultRelationExpression)
+      .modifyGraph(this.defaultRelationExpression, (graph) =>
+        graph.withGraphFetched(this.avatarRelationExpression),
+      )) as UserModel;
 
     return UserEntity.initialize({
       id: user.id,
@@ -127,6 +148,8 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
       passwordSalt: user.passwordSalt,
       passwordHash: user.passwordHash,
       username: user.userDetails.username,
+      avatarId: user.userDetails.avatarId,
+      avatarUrl: user.userDetails.avatar?.url ?? null,
     });
   }
 
@@ -140,6 +163,9 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
         passwordSalt,
       })
       .withGraphFetched(this.defaultRelationExpression)
+      .modifyGraph(this.defaultRelationExpression, (graph) =>
+        graph.withGraphFetched(this.avatarRelationExpression),
+      )
       .execute();
 
     return UserEntity.initialize({
@@ -150,6 +176,8 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
       passwordSalt: user.passwordSalt,
       passwordHash: user.passwordHash,
       username: user.userDetails.username,
+      avatarId: user.userDetails.avatarId,
+      avatarUrl: user.userDetails.avatar?.url ?? null,
     });
   }
 
@@ -162,6 +190,9 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
         email,
       })
       .withGraphFetched(this.defaultRelationExpression)
+      .modifyGraph(this.defaultRelationExpression, (graph) =>
+        graph.withGraphFetched(this.avatarRelationExpression),
+      )
       .execute();
 
     return UserEntity.initialize({
@@ -172,6 +203,37 @@ class UserRepository implements Omit<IRepository, 'findByUserId'> {
       passwordSalt: user.passwordSalt,
       passwordHash: user.passwordHash,
       username: user.userDetails.username,
+      avatarId: user.userDetails.avatarId,
+      avatarUrl: user.userDetails.avatar?.url ?? null,
+    });
+  }
+
+  public async updateAvatar(entity: UserEntity): Promise<UserEntity> {
+    const { id, avatarId } = entity.toUserAvatar();
+
+    await this.userModel
+      .relatedQuery(this.defaultRelationExpression)
+      .for(id)
+      .patch({ avatarId });
+
+    const user = (await this.userModel
+      .query()
+      .findById(id)
+      .withGraphFetched(this.defaultRelationExpression)
+      .modifyGraph(this.defaultRelationExpression, (graph) =>
+        graph.withGraphFetched(this.avatarRelationExpression),
+      )) as UserModel;
+
+    return UserEntity.initialize({
+      id: user.id,
+      email: user.email,
+      firstName: user.userDetails.firstName,
+      lastName: user.userDetails.lastName,
+      passwordSalt: user.passwordSalt,
+      passwordHash: user.passwordHash,
+      username: user.userDetails.username,
+      avatarId: user.userDetails.avatarId,
+      avatarUrl: user.userDetails.avatar?.url ?? null,
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Redirect } from '~/libs/components/components.js';
 import { AppRoute, DataStatus } from '~/libs/enums/enums.js';
-import { useAppSelector } from '~/libs/hooks/hooks.js';
+import { useAppSelector, useEffect } from '~/libs/hooks/hooks.js';
 import { type ValueOf } from '~/libs/types/types.js';
 
 type Properties = {

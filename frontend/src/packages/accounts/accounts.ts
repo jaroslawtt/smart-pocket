@@ -15,5 +15,11 @@ export {
   type AccountGetAllResponseDto,
   type AccountUpdateRequestDto,
   type AccountCreateRequestDto,
-} from './types/types.js';
-export { AccountsApiPath } from './enums/enums.js';
+  type AccountFilterQueryDto,
+  type AccountGetAllItemRequestParamsDto,
+} from '~/packages/accounts/libs/types/types.js';
+export {
+  AccountsApiPath,
+  AccountCurrencyValue,
+} from '~/packages/accounts/libs/enums/enums.js';
+export { createAccountValidationSchema } from '~/packages/accounts/libs/validation-schemas/validation-schemas.js';

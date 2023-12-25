@@ -29,7 +29,7 @@ const signUp = createAsyncThunk<
   UserAuthResponse,
   UserSignUpRequestDto,
   AsyncThunkConfig
->(`${sliceName}/sign-up`, async (payload, { extra }) => {
+>(`${SliceName.AUTH}/sign-up`, async (payload, { extra }) => {
   const { authApi, storage } = extra;
 
   const { user, token } = await authApi.signUp(payload);
@@ -51,4 +51,13 @@ const getCurrentUser = createAsyncThunk<
   return user;
 });
 
-export { signIn, signUp, getCurrentUser };
+const signOut = createAsyncThunk<void, undefined, AsyncThunkConfig>(
+  `${SliceName.AUTH}/sign-out`,
+  async (_, { extra }) => {
+    const { storage } = extra;
+
+    return void storage.drop(StorageKey.TOKEN);
+  },
+);
+
+export { signIn, signUp, signOut, getCurrentUser };

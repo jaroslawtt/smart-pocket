@@ -12,13 +12,17 @@
   "dependencies": {
     "@hookform/resolvers": "2.9.11",
     "@reduxjs/toolkit": "1.9.3",
+    "chart.js": "^4.4.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "clsx": "^2.0.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "7.43.5",
     "react-redux": "8.0.5",
     "react-router-dom": "6.8.2",
-    "vite-plugin-svgr": "2.4.0"
+    "react-select": "5.7.0",
+    "react-toastify": "9.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -33,6 +37,7 @@
     "stylelint-config-standard-scss": "7.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vite-plugin-svgr": "2.4.0",
     "vite-tsconfig-paths": "^4.2.1"
   }
 }

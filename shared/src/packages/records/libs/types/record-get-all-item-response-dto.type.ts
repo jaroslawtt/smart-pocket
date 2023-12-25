@@ -14,11 +14,15 @@ type RecordTransferGetAllItemResponseDto = RecordTypeGetAllItemResponseDto &
 
 type RecordTypeGetAllItemResponseDto = {
   id: string;
+  accountId: string;
   amount: number;
   date: string;
+  remnant: number;
   place: string | null;
   description: string | null;
   subcategory: CategoryGetAllItemResponseDto | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type RecordGetAllItemResponseDto =

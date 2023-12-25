@@ -1,0 +1,32 @@
+.card-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.2rem;
+  border-radius: 4px;
+  background: var(--white);
+  cursor: pointer;
+}
+
+.card-name-details {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .1px;
+  color: #354052;
+}
+
+.card-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.card-amount-details {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .1px;
+  color: #354052;
+}
+

@@ -1,0 +1,27 @@
+.graph-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.graph-details {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.graph-details-topic {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1.17;
+  color: #7f8fa4;
+}
+
+.graph-details-caption {
+  font-size: 16px;
+  font-weight: 700;
+  color: #354052;
+}

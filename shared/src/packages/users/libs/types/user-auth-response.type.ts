@@ -4,6 +4,7 @@ type UserAuthResponse = {
   firstName: string;
   lastName: string;
   username: string;
+  avatarUrl: string | null;
 };
 
 export { type UserAuthResponse };

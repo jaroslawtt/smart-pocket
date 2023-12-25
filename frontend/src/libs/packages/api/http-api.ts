@@ -72,7 +72,9 @@ class HttpApi implements IHttpApi {
   ): Promise<Headers> {
     const headers = new Headers();
 
-    headers.append(HttpHeader.CONTENT_TYPE, contentType);
+    if (contentType !== ContentType.FORM_DATA) {
+      headers.append(HttpHeader.CONTENT_TYPE, contentType);
+    }
 
     if (hasAuth) {
       const token = await this.storage.get<string>(StorageKey.TOKEN);

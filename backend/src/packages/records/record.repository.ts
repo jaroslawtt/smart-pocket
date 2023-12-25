@@ -16,10 +16,9 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
     const {
       type,
       amount,
-      date,
+      remnant,
       toAccountId,
       accountId,
-      fromAccountId,
       subcategoryId,
       payee,
       description,
@@ -30,9 +29,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
       .insertGraphAndFetch({
         type,
         amount,
-        date,
+        remnant,
         accountId,
-        fromAccountId,
         toAccountId,
         subcategoryId,
         recordDetails: {
@@ -49,8 +47,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
       id: record.id,
       type: record.type,
       amount: record.amount,
+      remnant: record.remnant,
       accountId: record.accountId,
-      fromAccountId: record.fromAccountId,
       toAccountId: record.toAccountId,
       subcategoryId: record.subcategoryId,
       date: record.date,
@@ -65,6 +63,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
             userId: record.subcategory.userId,
           })
         : null,
+      createdAt: record.createdAt,
+      updatedAt: record.updatedAt,
     });
   }
 
@@ -86,8 +86,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
       id: record.id,
       type: record.type,
       amount: record.amount,
+      remnant: record.remnant,
       accountId: record.accountId,
-      fromAccountId: record.fromAccountId,
       toAccountId: record.toAccountId,
       subcategoryId: record.subcategoryId,
       date: record.date,
@@ -102,6 +102,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
             userId: record.subcategory.userId,
           })
         : null,
+      createdAt: record.createdAt,
+      updatedAt: record.updatedAt,
     });
   }
 
@@ -120,8 +122,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
         id: record.id,
         type: record.type,
         amount: record.amount,
+        remnant: record.remnant,
         accountId: record.accountId,
-        fromAccountId: record.fromAccountId,
         toAccountId: record.toAccountId,
         subcategoryId: record.subcategoryId,
         date: record.date,
@@ -136,6 +138,41 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
               userId: record.subcategory.userId,
             })
           : null,
+        createdAt: record.createdAt,
+        updatedAt: record.updatedAt,
+      }),
+    );
+  }
+
+  async findByAccountId(accountId: string): Promise<RecordEntity[]> {
+    const records = await this.recordModel
+      .query()
+      .where('accountId', accountId)
+      .execute();
+
+    return records.map((record) =>
+      RecordEntity.initialize({
+        id: record.id,
+        type: record.type,
+        amount: record.amount,
+        remnant: record.remnant,
+        accountId: record.accountId,
+        toAccountId: record.toAccountId,
+        subcategoryId: record.subcategoryId,
+        date: record.date,
+        payee: record.recordDetails?.payee,
+        place: record.recordDetails.place,
+        description: record.recordDetails.description,
+        subcategory: record.subcategory
+          ? SubcategoryEntity.initialize({
+              id: record.subcategory.id,
+              name: record.subcategory.name,
+              categoryId: record.subcategory.categoryId,
+              userId: record.subcategory.userId,
+            })
+          : null,
+        createdAt: record.createdAt,
+        updatedAt: record.updatedAt,
       }),
     );
   }
@@ -145,7 +182,6 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
       id,
       type,
       accountId,
-      fromAccountId,
       toAccountId,
       amount,
       date,
@@ -169,7 +205,6 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
       .patchAndFetchById(id, {
         type,
         accountId,
-        fromAccountId,
         toAccountId,
         amount,
         date,
@@ -183,8 +218,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
       id: record.id,
       type: record.type,
       amount: record.amount,
+      remnant: record.remnant,
       accountId: record.accountId,
-      fromAccountId: record.fromAccountId,
       toAccountId: record.toAccountId,
       subcategoryId: record.subcategoryId,
       date: record.date,
@@ -199,6 +234,8 @@ class RecordRepository implements Omit<IRepository, 'findAll'> {
             userId: record.subcategory.userId,
           })
         : null,
+      updatedAt: record.updatedAt,
+      createdAt: record.createdAt,
     });
   }
 }

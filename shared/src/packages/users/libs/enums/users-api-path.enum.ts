@@ -1,8 +1,9 @@
 const UsersApiPath = {
   ROOT: '/',
   $ID: '/:id',
-  $ID_UPDATE_PASSWORD: '/:id/update-password',
-  $ID_UPDATE_LOGIN: '/:id/update-login',
+  UPDATE_PASSWORD: '/update-password',
+  UPDATE_LOGIN: '/update-login',
+  UPDATE_IMAGE: '/update-image',
 } as const;
 
 export { UsersApiPath };

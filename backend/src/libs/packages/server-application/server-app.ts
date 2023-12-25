@@ -1,6 +1,7 @@
 import swagger, { type StaticDocumentSpec } from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import Fastify, { type FastifyError } from 'fastify';
+import fastifyMultipart from '@fastify/multipart';
 
 import { ServerErrorType } from '~/libs/enums/enums.js';
 import { type ValidationError } from '~/libs/exceptions/exceptions.js';
@@ -16,6 +17,7 @@ import {
 import {
   authorization as authorizationPlugin,
   recordProducePermission as recordProducePermissionPlugin,
+  file as filePlugin,
 } from '~/libs/packages/plugins/plugins.js';
 
 import {
@@ -84,6 +86,12 @@ class ServerApp implements IServerApp {
   }
 
   public async initPlugins(): Promise<void> {
+    await this.app.register(fastifyMultipart, {
+      limits: { fileSize: 1024 * 1024 * 3 },
+      attachFieldsToBody: true,
+      throwFileSizeLimit: false,
+    });
+
     await this.app.register(authorizationPlugin, {
       whiteRoutesConfig: WHITE_ROUTES,
       userService,
@@ -93,6 +101,8 @@ class ServerApp implements IServerApp {
     await this.app.register(recordProducePermissionPlugin, {
       accountService,
     });
+
+    await this.app.register(filePlugin);
   }
 
   public async initMiddlewares(): Promise<void> {

@@ -1,0 +1,21 @@
+.records-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.records-list {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.record-list-date {
+  margin-left: 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #354052;
+  text-transform: capitalize;
+}

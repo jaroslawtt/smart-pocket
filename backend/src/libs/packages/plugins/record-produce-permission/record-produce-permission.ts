@@ -74,23 +74,19 @@ const recordProducePermission: FastifyPluginAsync<RecordProducePermissionPluginP
           };
 
           if (body.type === RecordTypeValue.TRANSFER) {
-            const senderAccount = await accountService.find(body.fromAccountId);
+            const senderAccount = await accountService.find(body.accountId);
             const receiverAccount = await accountService.find(body.toAccountId);
 
             if (!senderAccount || !receiverAccount) return;
 
-            await handlePermissionCheck(body.fromAccountId);
+            await handlePermissionCheck(body.accountId);
             handleInsufficientBalance(senderAccount.amount, body.amount);
           }
 
           if (
-            body.type === RecordTypeValue.EXPENSE ||
-            body.type === RecordTypeValue.INCOME
+            body.type === RecordTypeValue.EXPENSE
           ) {
-            const accountId =
-              body.type === RecordTypeValue.EXPENSE
-                ? body.accountId
-                : body.accountId;
+            const accountId = body.accountId;
             await handlePermissionCheck(accountId);
             const account = await accountService.find(accountId);
 
